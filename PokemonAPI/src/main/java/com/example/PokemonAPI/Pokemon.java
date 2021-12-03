@@ -6,10 +6,9 @@ import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Pokemon {
-
-    private String name;
-    private String busca;
     private String index;
+    private String busca;
+    private String name;
     private List<Types> types;
 
     public String getBusca() {
@@ -45,6 +44,6 @@ public class Pokemon {
 
     @Override
     public String toString() {
-        return "'"+index +"':" + " {'Busca': " + busca + ",'Nome':" + name + ",'Tipos': [" + types + "]}";
+        return "\""+index +"\":" + " {\"Busca\": " + "\""+busca +"\""+ ", \"Nome\": " + "\""+name+"\"" + ", \"Tipos\": " + types + "}";
     }
 }

@@ -14,7 +14,7 @@ public class Type {
 
     @Override
     public String toString() {
-        return "'Tipo': " + name + "";
+        return "\"Tipo\": " + "\""+name +"\"" + "";
     }
 
 }

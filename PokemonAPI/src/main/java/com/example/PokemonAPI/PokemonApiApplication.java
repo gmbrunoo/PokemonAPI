@@ -1,11 +1,12 @@
 package com.example.PokemonAPI;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.http.HttpStatus;
+import org.springframework.boot.autoconfigure.gson.GsonBuilderCustomizer;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
@@ -36,12 +37,13 @@ public class PokemonApiApplication {
 					.pathSegment(pk_name[i])
 					.build();
 
+			ResponseEntity<Pokemon> entity = null;
 			try {
 
-					ResponseEntity<Pokemon> entity = template.getForEntity(uri.toUriString(), Pokemon.class);
-					entity.getBody().setBusca(uri.toString());
-					entity.getBody().setIndex("Pokemon" + (i + 1));
-					listaPokemon.add(entity.getBody());
+				entity = template.getForEntity(uri.toUriString(), Pokemon.class);
+				entity.getBody().setBusca(uri.toString());
+				entity.getBody().setIndex("Pokemon" + (i + 1));
+				listaPokemon.add(entity.getBody());
 
 			} catch (RestClientException e) {
 				e.getCause();
@@ -49,13 +51,13 @@ public class PokemonApiApplication {
 			}
 		}
 
-		System.out.println(listaPokemon);
-
-		ObjectMapper mapper = new ObjectMapper();
 
 		try {
 
-			String content = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(listaPokemon);
+			String novaLista = listaPokemon.toString().replace("[", "{").replace("]", "}");
+
+//			Gson gson = new GsonBuilder().setPrettyPrinting().create();
+//			String jsonAsString = gson.toJson(novaLista);
 
 			File arquivo = new File("results.txt");
 
@@ -66,7 +68,7 @@ public class PokemonApiApplication {
 			FileWriter escrevendo = new FileWriter(arquivo.getAbsoluteFile());
 			BufferedWriter buffer = new BufferedWriter(escrevendo);
 
-			buffer.write(content);
+			buffer.write(novaLista);
 			buffer.close();
 
 
