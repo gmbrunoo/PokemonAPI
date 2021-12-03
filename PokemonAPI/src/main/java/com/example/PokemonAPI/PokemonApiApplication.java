@@ -3,7 +3,10 @@ package com.example.PokemonAPI;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.HttpStatusCodeException;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -20,7 +23,7 @@ public class PokemonApiApplication {
 
 		RestTemplate template = new RestTemplate();
 
-		String[] pk_name = {"magikarp", "rayquaza", "rattata"};
+		String[] pk_name = {"magikarp", "rayquaza", "rattata", "alvinho"};
 
 		List<Pokemon> listaPokemon = new ArrayList<>();
 
@@ -29,15 +32,21 @@ public class PokemonApiApplication {
 			UriComponents uri = UriComponentsBuilder.newInstance()
 					.scheme("https")
 					.host("pokeapi.co")
-					.path("api/v2/pokemon/" + pk_name[i])
+					.path("api/v2/pokemon/")
+					.pathSegment(pk_name[i])
 					.build();
 
-			ResponseEntity<Pokemon> entity = template.getForEntity(uri.toUriString(), Pokemon.class);
+			try {
 
-			entity.getBody().setBusca(uri.toString());
-			entity.getBody().setIndex("Pokemon"+(i+1));
-			listaPokemon.add(entity.getBody());
+					ResponseEntity<Pokemon> entity = template.getForEntity(uri.toUriString(), Pokemon.class);
+					entity.getBody().setBusca(uri.toString());
+					entity.getBody().setIndex("Pokemon" + (i + 1));
+					listaPokemon.add(entity.getBody());
 
+			} catch (RestClientException e) {
+				e.getCause();
+				//System.out.println(e);
+			}
 		}
 
 		System.out.println(listaPokemon);
@@ -47,7 +56,6 @@ public class PokemonApiApplication {
 		try {
 
 			String content = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(listaPokemon);
-
 
 			File arquivo = new File("results.txt");
 
