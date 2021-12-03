@@ -1,0 +1,32 @@
+[ {
+  "name" : "magikarp",
+  "busca" : "https://pokeapi.co/api/v2/pokemon/magikarp",
+  "index" : "Pokemon1",
+  "types" : [ {
+    "type" : {
+      "name" : "water"
+    }
+  } ]
+}, {
+  "name" : "rayquaza",
+  "busca" : "https://pokeapi.co/api/v2/pokemon/rayquaza",
+  "index" : "Pokemon2",
+  "types" : [ {
+    "type" : {
+      "name" : "dragon"
+    }
+  }, {
+    "type" : {
+      "name" : "flying"
+    }
+  } ]
+}, {
+  "name" : "rattata",
+  "busca" : "https://pokeapi.co/api/v2/pokemon/rattata",
+  "index" : "Pokemon3",
+  "types" : [ {
+    "type" : {
+      "name" : "normal"
+    }
+  } ]
+} ]
